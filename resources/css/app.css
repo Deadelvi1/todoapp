@@ -1,16 +1,2 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Custom Gen Z Theme */
-:root {
-  --genz-bg: #f6f8ff;
-  --genz-primary: #a78bfa;
-  --genz-accent: #60a5fa;
-}
-
-body {
-  background-color: var(--genz-bg);
-  color: #1f2937;
-  font-family: 'Inter', sans-serif;
-}
