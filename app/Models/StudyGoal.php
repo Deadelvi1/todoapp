@@ -6,23 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class Todo extends Model
+class StudyGoal extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
         'user_id',
         'title',
-        'duration_minutes',
-        'start_time',
-        'end_time',
-        'is_completed',
+        'target_hours',
+        'achieved_hours',
+        'status',
+        'score',
     ];
 
     protected $casts = [
-        'is_completed' => 'boolean',
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'status' => 'string',
     ];
 
     // Relasi
@@ -31,8 +29,8 @@ class Todo extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function reminders()
+    public function studySessions()
     {
-        return $this->hasMany(Reminder::class);
+        return $this->hasMany(StudySession::class);
     }
 }
