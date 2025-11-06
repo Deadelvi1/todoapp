@@ -6,27 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Todo extends Model
+class StudyGoal extends Model
 {
     use HasFactory;
 
-    protected $table = 'todos';
+    protected $table = 'study_goals';
 
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
+        'user_id',
         'title',
-        'description',
-        'is_done',
-    ];
-
-    // allow assigning user_id when creating todos
-    protected $guarded = [];
-
-    protected $casts = [
-        'is_done' => 'boolean',
+        'target_hours',
+        'achieved_hours',
+        'status',
     ];
 
     protected static function boot()
@@ -38,6 +33,11 @@ class Todo extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function studySessions()
+    {
+        return $this->hasMany(StudySession::class, 'study_goal_id', 'id');
     }
 
     public function user()

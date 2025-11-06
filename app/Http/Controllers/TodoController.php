@@ -9,13 +9,18 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todos = Todo::all();
-        return view('index', compact('todos'));
+        $userId = session()->has('user') ? session('user')->id : null;
+        if ($userId) {
+            $todos = Todo::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+        } else {
+            $todos = collect();
+        }
+        return view('todos.index', compact('todos'));
     }
 
     public function create()
     {
-        return view('create');
+        return view('todos.create');
     }
 
     public function store(Request $request)
@@ -24,9 +29,12 @@ class TodoController extends Controller
             'title' => 'required'
         ]);
 
+        $userId = session()->has('user') ? session('user')->id : null;
+
         Todo::create([
             'title' => $request->title,
-            'description' => $request->description ?? ''
+            'description' => $request->description ?? '',
+            'user_id' => $userId,
         ]);
 
         return redirect()->route('todos.index')->with('success', 'Task created successfully.');
@@ -34,7 +42,7 @@ class TodoController extends Controller
 
     public function edit(Todo $todo)
     {
-        return view('edit', compact('todo'));
+        return view('todos.edit', compact('todo'));
     }
 
     public function update(Request $request, Todo $todo)
