@@ -3,6 +3,10 @@
         background-color: #ffffff !important;
         border-bottom: 1px solid #e5e7eb;
         padding: 0.75rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
     
     .navbar-brand-custom {

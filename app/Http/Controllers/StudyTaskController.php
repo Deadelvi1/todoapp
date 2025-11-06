@@ -33,6 +33,10 @@ class StudyTaskController extends Controller
 
     public function store(Request $request)
     {
+        if (!session()->has('user')) {
+            return redirect()->route('create')->withErrors(['msg' => 'Harus login dulu']);
+        }
+
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -41,28 +45,20 @@ class StudyTaskController extends Controller
             'deadline' => 'nullable|date',
         ]);
 
-        if (!session()->has('user')) {
-            return redirect()->route('create')->withErrors(['msg' => 'Harus login dulu']);
-        }
-
         $userId = session('user')->id;
 
-        try {
-            $payload = [
-                'user_id' => $userId,
-                'title' => $data['title'],
-                'description' => $data['description'] ?? null,
-                'priority' => $data['priority'] ?? 'medium',
-                'status' => $data['status'] ?? 'pending',
-                'deadline' => $data['deadline'] ?? null,
-            ];
+        $payload = [
+            'user_id' => $userId,
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'priority' => $data['priority'] ?? 'medium',
+            'status' => $data['status'] ?? 'pending',
+            'deadline' => $data['deadline'] ?? null,
+        ];
 
-            StudyTask::create($payload);
+        StudyTask::create($payload);
 
-            return redirect()->route('study-tasks.index')->with('success', 'Task dibuat.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->withErrors(['msg' => 'Gagal menyimpan task: ' . $e->getMessage()]);
-        }
+        return redirect()->route('study-tasks.index')->with('success', 'Task dibuat.');
     }
 
     public function show(StudyTask $studyTask)

@@ -45,6 +45,12 @@
         </div>
     </div>
 
+    @if(isset($tasks) && $tasks->count() > 0)
+        <div style="margin-bottom: 15px; color: #666; font-size: 14px;">
+            Total: {{ $tasks->count() }} task
+        </div>
+    @endif
+
     <table>
         <thead>
             <tr>
@@ -58,7 +64,7 @@
             </tr>
         </thead>
         <tbody>
-        @forelse($tasks as $task)
+        @forelse($tasks ?? [] as $task)
             <tr>
                 <td><strong>{{ $task->title }}</strong></td>
                 <td>{{ Str::limit($task->description ?? '-', 50) }}</td>

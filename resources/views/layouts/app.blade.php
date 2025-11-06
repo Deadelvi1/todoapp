@@ -30,7 +30,7 @@
     @include('layouts.header')
     
     <div class="main-content">
-        <div class="container mt-4">
+        <div class="container" style="margin-top: 0; padding-top: 20px;">
             @if(session('success'))
                 <div class="alert alert-success" style="color: #0a7a18; background: #eafbe7; border: 1px solid #b8e4b0; border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; font-size: 14px;">
                     ✅ {{ session('success') }}
