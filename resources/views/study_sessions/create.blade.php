@@ -73,16 +73,6 @@
     .btn-secondary:hover {
         background: #e2e2e2;
     }
-
-    footer {
-        background-color: #1e90ff;
-        color: white;
-        padding: 12px;
-        text-align: center;
-        font-weight: 500;
-        border-radius: 0 0 10px 10px;
-        margin-top: 50px;
-    }
 </style>
 
 <div class="container">
@@ -149,9 +139,5 @@
             </div>
         </form>
     </div>
-
-    <footer>
-        © 2025 Study Timer — Belajar Konsisten, Hasil Maksimal 📚
-    </footer>
 </div>
 @endsection

@@ -13,8 +13,6 @@
     .top-links a { color: #1e90ff; text-decoration: none; font-weight: 600; }
     .top-links a:hover { text-decoration: underline; }
 
-    .total { font-size: 1.1rem; font-weight: 600; color: #1d3557; margin-bottom: 15px; }
-
     table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 15px; border-radius: 10px; overflow: hidden; }
     th { background: #1e90ff; color: white; padding: 10px; text-align: left; }
     td { background: #f9fafc; padding: 10px; border-bottom: 1px solid #e5e7eb; }
@@ -27,59 +25,72 @@
     .btn-edit:hover { background: #ffe2b3; }
     .btn-delete { background: #ffeaea; color: #e63946; border: none; cursor: pointer; }
     .btn-delete:hover { background: #ffcccc; }
+
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+    .badge-pending { background: #fff7e6; color: #ff9900; }
+    .badge-completed { background: #eafbe7; color: #0a7a18; }
+    .badge-in-progress { background: #eaf2ff; color: #1e90ff; }
 </style>
 
 <div class="container">
-    <h1 class="title">📋 Study Sessions</h1>
+    <h1 class="title">📝 Study Tasks</h1>
 
     <div class="top-links">
         <div>
-            <a href="{{ route('study-sessions.create') }}">➕ Tambah Session</a>
+            <a href="{{ route('study-tasks.create') }}">➕ Tambah Task</a>
+            &nbsp;|&nbsp;
+            <a href="{{ route('study-sessions.index') }}">📋 Sessions</a>
             &nbsp;|&nbsp;
             <a href="{{ route('study-goals.index') }}">🎯 Goals</a>
         </div>
     </div>
 
-    <div class="total">
-        Total durasi:
-        <strong>{{ intdiv($totalMinutes, 60) }} jam {{ $totalMinutes % 60 }} menit</strong>
-    </div>
-
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Goal</th>
-                <th>Durasi (menit)</th>
-                <th>Catatan</th>
+                <th>Judul</th>
+                <th>Deskripsi</th>
+                <th>Status</th>
+                <th>Prioritas</th>
+                <th>Deadline</th>
                 <th>Dibuat</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-        @forelse($sessions as $s)
+        @forelse($tasks as $task)
             <tr>
-                <td>{{ $s->id }}</td>
-                <td>{{ $s->studyGoal?->title ?? '-' }}</td>
-                <td>{{ $s->duration_minutes }}</td>
-                <td>{{ $s->note ?? '-' }}</td>
-                <td>{{ $s->created_at->format('d M Y, H:i') }}</td>
+                <td><strong>{{ $task->title }}</strong></td>
+                <td>{{ Str::limit($task->description ?? '-', 50) }}</td>
                 <td>
-                    <a href="{{ route('study-sessions.show', $s->id) }}" class="btn btn-view">View</a>
-                    <a href="{{ route('study-sessions.edit', $s->id) }}" class="btn btn-edit">Edit</a>
-                    <form action="{{ route('study-sessions.destroy', $s->id) }}" method="POST" style="display:inline;">
+                    @if($task->status == 'completed')
+                        <span class="badge badge-completed">Selesai</span>
+                    @elseif($task->status == 'in_progress')
+                        <span class="badge badge-in-progress">Sedang Dikerjakan</span>
+                    @else
+                        <span class="badge badge-pending">Pending</span>
+                    @endif
+                </td>
+                <td>{{ ucfirst($task->priority ?? 'medium') }}</td>
+                <td>{{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('d M Y') : '-' }}</td>
+                <td>{{ $task->created_at->format('d M Y, H:i') }}</td>
+                <td>
+                    <a href="{{ route('study-tasks.show', $task->id) }}" class="btn btn-view">View</a>
+                    <a href="{{ route('study-tasks.edit', $task->id) }}" class="btn btn-edit">Edit</a>
+                    <form action="{{ route('study-tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Yakin hapus session ini?')">Delete</button>
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('Yakin hapus task ini?')">Delete</button>
                     </form>
                 </td>
             </tr>
         @empty
             <tr>
-                <td colspan="6" style="text-align:center; padding: 20px; color:#777;">Belum ada session.</td>
+                <td colspan="7" style="text-align:center; padding: 20px; color:#777;">Belum ada task.</td>
             </tr>
         @endforelse
         </tbody>
     </table>
 </div>
 @endsection
+

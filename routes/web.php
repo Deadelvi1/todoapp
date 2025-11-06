@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\StudyGoalController;
 use App\Http\Controllers\StudySessionController;
+use App\Http\Controllers\StudyTaskController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\AuthController;
 
@@ -30,4 +31,5 @@ Route::middleware([\App\Http\Middleware\AuthCheck::class])->group(function() {
     // Study goals & sessions
     Route::resource('study-goals', StudyGoalController::class);
     Route::resource('study-sessions', StudySessionController::class);
+    Route::resource('study-tasks', StudyTaskController::class);
 });

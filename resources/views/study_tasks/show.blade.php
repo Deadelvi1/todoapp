@@ -79,7 +79,7 @@
         color: #1d3557;
     }
 
-    .note-box {
+    .description-box {
         background: #ffffff;
         border: 1px solid #e5e7eb;
         border-radius: 8px;
@@ -127,7 +127,14 @@
         background: #ffcccc;
     }
 
+    .btn-back {
+        background: #eaf2ff;
+        color: #1e90ff;
+    }
 
+    .btn-back:hover {
+        background: #d3e4ff;
+    }
 
     .badge {
         display: inline-block;
@@ -137,23 +144,45 @@
         font-weight: 600;
     }
 
-    .badge-goal {
+    .badge-pending {
+        background: #fff7e6;
+        color: #ff9900;
+    }
+
+    .badge-completed {
+        background: #eafbe7;
+        color: #0a7a18;
+    }
+
+    .badge-in-progress {
         background: #eaf2ff;
         color: #1e90ff;
     }
 
-    .badge-duration {
+    .badge-low {
+        background: #f1f1f1;
+        color: #6c757d;
+    }
+
+    .badge-medium {
         background: #fff7e6;
         color: #ff9900;
+    }
+
+    .badge-high {
+        background: #ffeaea;
+        color: #e63946;
     }
 </style>
 
 <div class="container">
-    <h1 class="title">📋 Detail Study Session</h1>
+    <h1 class="title">📝 Detail Study Task</h1>
 
     <div class="top-links">
         <div>
-            <a href="{{ route('study-sessions.create') }}">➕ Tambah Session</a>
+            <a href="{{ route('study-tasks.create') }}">➕ Tambah Task</a>
+            &nbsp;|&nbsp;
+            <a href="{{ route('study-sessions.index') }}">📋 Sessions</a>
             &nbsp;|&nbsp;
             <a href="{{ route('study-goals.index') }}">🎯 Goals</a>
         </div>
@@ -161,38 +190,54 @@
 
     <div class="detail-card">
         <div class="detail-row">
-            <div class="detail-label">ID Session</div>
-            <div class="detail-value">{{ $session->id }}</div>
+            <div class="detail-label">Judul Task</div>
+            <div class="detail-value"><strong>{{ $task->title }}</strong></div>
         </div>
 
         <div class="detail-row">
-            <div class="detail-label">Goal</div>
+            <div class="detail-label">Deskripsi</div>
             <div class="detail-value">
-                @if($session->studyGoal)
-                    <span class="badge badge-goal">{{ $session->studyGoal->title }}</span>
+                @if($task->description)
+                    <div class="description-box">{{ $task->description }}</div>
                 @else
-                    <span style="color: #999;">-</span>
+                    <span style="color: #999;">Tidak ada deskripsi</span>
                 @endif
             </div>
         </div>
 
         <div class="detail-row">
-            <div class="detail-label">Durasi</div>
+            <div class="detail-label">Status</div>
             <div class="detail-value">
-                <span class="badge badge-duration">
-                    <strong>{{ intdiv($session->duration_minutes, 60) }} jam {{ $session->duration_minutes % 60 }} menit</strong>
-                </span>
-                <span style="color: #999; margin-left: 10px;">({{ $session->duration_minutes }} menit)</span>
+                @if($task->status == 'completed')
+                    <span class="badge badge-completed">Selesai</span>
+                @elseif($task->status == 'in_progress')
+                    <span class="badge badge-in-progress">Sedang Dikerjakan</span>
+                @else
+                    <span class="badge badge-pending">Pending</span>
+                @endif
             </div>
         </div>
 
         <div class="detail-row">
-            <div class="detail-label">Catatan</div>
+            <div class="detail-label">Prioritas</div>
             <div class="detail-value">
-                @if($session->note)
-                    <div class="note-box">{{ $session->note }}</div>
+                @if($task->priority == 'high')
+                    <span class="badge badge-high">Tinggi</span>
+                @elseif($task->priority == 'medium')
+                    <span class="badge badge-medium">Sedang</span>
                 @else
-                    <span style="color: #999;">Tidak ada catatan</span>
+                    <span class="badge badge-low">Rendah</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="detail-row">
+            <div class="detail-label">Deadline</div>
+            <div class="detail-value">
+                @if($task->deadline)
+                    <strong>{{ \Carbon\Carbon::parse($task->deadline)->format('d M Y') }}</strong>
+                @else
+                    <span style="color: #999;">Tidak ada deadline</span>
                 @endif
             </div>
         </div>
@@ -200,28 +245,29 @@
         <div class="detail-row">
             <div class="detail-label">Dibuat</div>
             <div class="detail-value">
-                <strong>{{ $session->created_at->format('d M Y, H:i') }}</strong>
+                <strong>{{ $task->created_at->format('d M Y, H:i') }}</strong>
             </div>
         </div>
 
         <div class="detail-row">
             <div class="detail-label">Diperbarui</div>
             <div class="detail-value">
-                <strong>{{ $session->updated_at->format('d M Y, H:i') }}</strong>
+                <strong>{{ $task->updated_at->format('d M Y, H:i') }}</strong>
             </div>
         </div>
     </div>
 
     <div class="action-buttons">
-        <a href="{{ route('study-sessions.index') }}" class="btn" style="background: #eaf2ff; color: #1e90ff;">← Kembali</a>
-        <a href="{{ route('study-sessions.edit', $session->id) }}" class="btn btn-edit">✏️ Edit Session</a>
-        <form action="{{ route('study-sessions.destroy', $session->id) }}" method="POST" style="display:inline;">
+        <a href="{{ route('study-tasks.index') }}" class="btn btn-back">← Kembali</a>
+        <a href="{{ route('study-tasks.edit', $task->id) }}" class="btn btn-edit">✏️ Edit Task</a>
+        <form action="{{ route('study-tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-delete" onclick="return confirm('Yakin hapus session ini?')">
-                🗑️ Hapus Session
+            <button type="submit" class="btn btn-delete" onclick="return confirm('Yakin hapus task ini?')">
+                🗑️ Hapus Task
             </button>
         </form>
     </div>
 </div>
 @endsection
+
