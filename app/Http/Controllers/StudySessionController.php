@@ -77,12 +77,24 @@ class StudySessionController extends Controller
 
     public function show(StudySession $studySession)
     {
+        $studySession->load('studyGoal');
         return view('study_sessions.show', ['session' => $studySession]);
     }
 
     public function edit(StudySession $studySession)
     {
-        $goals = StudyGoal::all();
+        if (!session()->has('user')) {
+            return redirect()->route('create')->withErrors(['msg' => 'Harus login dulu']);
+        }
+
+        $userId = session('user')->id;
+
+        // ensure the session belongs to a goal of this user
+        if ($studySession->studyGoal && $studySession->studyGoal->user_id != $userId) {
+            return redirect()->route('study-sessions.index')->withErrors(['msg' => 'Tidak diizinkan']);
+        }
+
+        $goals = StudyGoal::where('user_id', $userId)->get();
         return view('study_sessions.edit', compact('studySession', 'goals'));
     }
 
