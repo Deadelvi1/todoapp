@@ -33,6 +33,10 @@ class WelcomeController extends Controller
                 'user_id' => $userId,
                 'is_done' => false
             ])->count(),
+            'recentTodos' => Todo::where([
+                'user_id' => $userId,
+                'is_done' => false
+            ])->orderBy('created_at', 'desc')->take(5)->get(),
             'recentGoals' => StudyGoal::where('user_id', $userId)
                 ->orderBy('created_at', 'desc')
                 ->take(5)

@@ -25,17 +25,14 @@ class TodoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required'
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        $userId = session()->has('user') ? session('user')->id : null;
-
-        Todo::create([
-            'title' => $request->title,
-            'description' => $request->description ?? '',
-            'user_id' => $userId,
-        ]);
+        // Tambahkan user_id dari session ke data yang akan disimpan
+        $validatedData['user_id'] = session('user')->id;
+        Todo::create($validatedData);
 
         return redirect()->route('todos.index')->with('success', 'Task created successfully.');
     }
@@ -63,5 +60,13 @@ class TodoController extends Controller
     {
         $todo->delete();
         return redirect()->route('todos.index')->with('success', 'Task deleted successfully.');
+    }
+
+    public function complete(Todo $todo)
+    {
+        $todo->is_done = true;
+        $todo->save();
+
+        return back()->with('success', 'Task marked as completed!');
     }
 }

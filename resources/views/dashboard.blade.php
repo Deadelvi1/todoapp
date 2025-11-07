@@ -84,10 +84,48 @@
         </a>
       </div>
 
-      <!-- Empty State -->
-      <p class="text-red-400 text-sm mb-2">Not Found</p>
-      <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-black/70 text-sm text-center">
-        No tasks yet. Add your first task above.
+      <!-- Task Table -->
+      <div class="mt-4 overflow-x-auto">
+        @if($activeTodos > 0 && isset($recentTodos) && $recentTodos->count() > 0)
+          <table class="w-full text-sm text-left">
+            <thead class="text-xs text-black/60 uppercase bg-white/10">
+              <tr>
+                <th scope="col" class="px-4 py-3">Tugas</th>
+                <th scope="col" class="px-4 py-3 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($recentTodos as $todo)
+                <tr class="border-b border-white/10 hover:bg-white/10">
+                  <td class="px-4 py-3">
+                    <p class="text-black/90 font-medium">{{ $todo->title }}</p>
+                    <p class="text-xs text-black/50">{{ $todo->created_at->format('d M Y') }}</p>
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center justify-end gap-2">
+                      <form action="{{ route('todos.complete', $todo->id) }}" method="POST">
+                          @csrf
+                          @method('PATCH')
+                          <button type="submit" class="text-xs text-green-600 bg-green-100/50 hover:bg-green-200/50 px-2 py-1 rounded-md transition-colors">Selesai</button>
+                      </form>
+                      <a href="{{ route('todos.edit', $todo->id) }}" class="text-xs text-blue-600 bg-blue-100/50 hover:bg-blue-200/50 px-2 py-1 rounded-md transition-colors">Edit</a>
+                      <form action="{{ route('todos.destroy', $todo->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus tugas ini?');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="text-xs text-red-600 bg-red-100/50 hover:bg-red-200/50 px-2 py-1 rounded-md transition-colors">Hapus</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        @else
+          <!-- Empty State -->
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-black/70 text-sm text-center">
+            Belum ada tugas aktif. Tambahkan tugas pertama Anda di atas.
+          </div>
+        @endif
       </div>
     </div>
 

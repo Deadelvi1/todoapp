@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+        //DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
         Schema::create('todos', function (Blueprint $table) {
             $table->uuid('id')->primary();

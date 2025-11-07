@@ -27,6 +27,7 @@ Route::middleware([\App\Http\Middleware\AuthCheck::class])->group(function() {
     Route::get('/todos/{todo}/edit', [TodoController::class, 'edit'])->name('todos.edit');
     Route::put('/todos/{todo}', [TodoController::class, 'update'])->name('todos.update');
     Route::delete('/todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
+    Route::patch('/todos/{todo}/complete', [TodoController::class, 'complete'])->name('todos.complete');
 
     // Study goals & sessions
     Route::resource('study-goals', StudyGoalController::class);

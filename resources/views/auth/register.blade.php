@@ -1,71 +1,73 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h3 class="card-title text-center mb-4">Create Account</h3>
 
-                <form method="POST" action="{{ route('register') }}">
-                    @csrf
-                    
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Full Name</label>
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
-                            name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                        @error('name')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Poppins', sans-serif; }
+</style>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
-                            name="email" value="{{ old('email') }}" required autocomplete="email">
-                        @error('email')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                            name="password" required autocomplete="new-password">
-                        @error('password')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        <div class="form-text">
-                            Must be at least 8 characters long.
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password-confirm" class="form-label">Confirm Password</label>
-                        <input id="password-confirm" type="password" class="form-control"
-                            name="password_confirmation" required autocomplete="new-password">
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary py-2">
-                            Register
-                        </button>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <p class="mb-0">Already have an account? 
-                            <a href="{{ route('login') }}" class="text-decoration-none">Sign in</a>
-                        </p>
-                    </div>
-                </form>
-            </div>
+<div class="flex justify-center items-center bg-gray-100 p-4" style="min-height: 85vh;">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-800">Buat Akun Baru</h1>
+            <p class="text-gray-500">Silakan isi form di bawah untuk mendaftar</p>
         </div>
+
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('register') }}" class="space-y-4">
+            @csrf
+
+            <div>
+                <label for="name" class="text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <input id="name" name="name" type="text" autocomplete="name" required autofocus
+                       class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       value="{{ old('name') }}"
+                       placeholder="Nama Anda">
+            </div>
+
+            <div>
+                <label for="email" class="text-sm font-medium text-gray-700">Alamat Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required
+                       class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       value="{{ old('email') }}"
+                       placeholder="anda@email.com">
+            </div>
+
+            <div>
+                <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+                <input id="password" name="password" type="password" autocomplete="new-password" required
+                       class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       placeholder="Minimal 8 karakter">
+            </div>
+
+            <div>
+                <label for="password-confirm" class="text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                <input id="password-confirm" name="password_confirmation" type="password" autocomplete="new-password" required
+                       class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       placeholder="Ulangi password">
+            </div>
+
+            <div class="pt-2">
+                <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Daftar
+                </button>
+            </div>
+        </form>
+        <p class="text-center text-sm text-gray-600">
+            Sudah punya akun? <a href="{{ route('login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Login di sini</a>
+        </p>
     </div>
 </div>
 @endsection

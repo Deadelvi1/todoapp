@@ -19,11 +19,9 @@ class Todo extends Model
     protected $fillable = [
         'title',
         'description',
-        'is_done',
+        'is_done', // is_done diatur secara default di database
+        'user_id',
     ];
-
-    // allow assigning user_id when creating todos
-    protected $guarded = [];
 
     protected $casts = [
         'is_done' => 'boolean',

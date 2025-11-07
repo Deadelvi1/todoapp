@@ -1,15 +1,20 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TodoApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-@section('content')
-{{-- Kita tetap menggunakan CDN Tailwind untuk styling form, bisa dipindahkan ke layout utama jika diinginkan --}}
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-    body { font-family: 'Poppins', sans-serif; }
-</style>
-
-<div class="flex justify-center items-center bg-gray-100 p-4" style="min-height: 85vh;">
-    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <div class="text-center">
             <h1 class="text-3xl font-bold text-gray-800">Selamat Datang Kembali!</h1>
             <p class="text-gray-500">Silakan login untuk melanjutkan</p>
@@ -31,7 +36,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
+        <form method="POST" action="{{ url('/login') }}" class="space-y-6">
             @csrf
 
             <div>
@@ -60,5 +65,6 @@
             Belum punya akun? <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Daftar di sini</a>
         </p>
     </div>
-</div>
-@endsection
+
+</body>
+</html>
