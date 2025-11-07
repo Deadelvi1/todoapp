@@ -4,33 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Timer App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        
         body {
             display: flex;
             flex-direction: column;
         }
-        
+
         .main-content {
             flex: 1;
         }
-        
+
         footer {
             margin-top: auto;
         }
     </style>
 </head>
-<body class="bg-light">
+<body class="bg-light min-h-screen">
     @include('layouts.header')
-    
-    <div class="main-content">
-        <div class="container" style="margin-top: 0; padding-top: 20px;">
+
+    <div class="main-content mt-20">
+        <div class="container mx-auto" style="margin-top: 0; padding-top: 20px;">
             @if(session('success'))
                 <div class="alert alert-success" style="color: #0a7a18; background: #eafbe7; border: 1px solid #b8e4b0; border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; font-size: 14px;">
                     ✅ {{ session('success') }}
@@ -59,6 +55,21 @@
     </div>
 
     @include('layouts.footer')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+
+    menuBtn.addEventListener('click', () => {
+        // Toggle hidden and slide animation
+        menu.classList.toggle('hidden');
+        if (!menu.classList.contains('hidden')) {
+            menu.classList.add('animate-slideDown');
+        } else {
+            menu.classList.remove('animate-slideDown');
+        }
+    });
+});
+    </script>
 </body>
 </html>
