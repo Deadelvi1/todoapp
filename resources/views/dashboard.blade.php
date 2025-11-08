@@ -38,9 +38,9 @@
     </div>
 
     <!-- Active Tasks -->
-    <div class="bg-gradient-to-tr from-indigo-100 to-sky-200 border border-white/20 rounded-2xl shadow-lg p-6 hover:scale-[0.98] transition-all duration-300">
+    <div class="bg-gradient-to-tr from-white/10 to-sky-400/30 rounded-2xl shadow-lg p-6 hover:scale-[0.98] transition-all duration-300">
       <div class="flex flex-col items-center">
-        <div class="w-12 h-12 bg-indigo-400/20 rounded-xl flex items-center justify-center mb-4">
+        <div class="w-12 h-12 bg-white/60 backdrop-blur-xl rounded-lg flex items-center justify-center mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-checks">
             <path d="m3 17 2 2 4-4M3 7l2 2 4-4m5 2h8M14 12h8m-8 5h8"/>
           </svg>
@@ -117,12 +117,12 @@
           value="25"
           class="w-full sm:w-24 bg-white/10 text-black border border-gray-200 hover:border-gray-700 focus:ring-1 focus:ring-sky-400 outline-none rounded-lg px-3 py-2 block"
         >
-        <button class="hover:scale-95 transition-all duration-300 bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-4 py-2 rounded-lg items-center justify-center gap-1 flex">
+        <a href="{{ route('study-goals.create') }}" class="hover:scale-95 transition-all duration-300 bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-4 py-2 rounded-lg items-center justify-center gap-1 flex">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M18 12h-6m0 0H6m6 0V6m0 6v6"/>
           </svg>
           Goal
-        </button>
+        </a>
       </div>
 
       <!-- Empty State -->
