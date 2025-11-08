@@ -14,7 +14,7 @@ class WelcomeController extends Controller
         if (session()->has('user')) {
             return redirect()->route('dashboard');
         }
-            return view('welcome');
+            return view('landing');
     }
 
     public function index()
