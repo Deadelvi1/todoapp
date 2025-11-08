@@ -180,7 +180,7 @@
 
     <div class="top-links">
         <div>
-            <a href="{{ route('study-tasks.create') }}">➕ Tambah Task</a>
+            <a href="{{ route('study_tasks.create') }}">➕ Tambah Task</a>
             &nbsp;|&nbsp;
             <a href="{{ route('study-sessions.index') }}">📋 Sessions</a>
             &nbsp;|&nbsp;
@@ -258,9 +258,9 @@
     </div>
 
     <div class="action-buttons">
-        <a href="{{ route('study-tasks.index') }}" class="btn btn-back">← Kembali</a>
-        <a href="{{ route('study-tasks.edit', $task->id) }}" class="btn btn-edit">✏️ Edit Task</a>
-        <form action="{{ route('study-tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
+        <a href="{{ route('study_tasks.index') }}" class="btn btn-back">← Kembali</a>
+        <a href="{{ route('study_tasks.edit', $task->id) }}" class="btn btn-edit">✏️ Edit Task</a>
+        <form action="{{ route('study_tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-delete" onclick="return confirm('Yakin hapus task ini?')">

@@ -56,20 +56,28 @@
 
     @include('layouts.footer')
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const menuBtn = document.getElementById('mobileMenuBtn');
-    const menu = document.getElementById('mobileMenu');
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const menu = document.getElementById('mobileMenu');
 
-    menuBtn.addEventListener('click', () => {
-        // Toggle hidden and slide animation
-        menu.classList.toggle('hidden');
-        if (!menu.classList.contains('hidden')) {
-            menu.classList.add('animate-slideDown');
-        } else {
-            menu.classList.remove('animate-slideDown');
-        }
-    });
-});
+            menuBtn.addEventListener('click', () => {
+                // Toggle hidden and slide animation
+                menu.classList.toggle('hidden');
+                if (!menu.classList.contains('hidden')) {
+                    menu.classList.add('animate-slideDown');
+                } else {
+                    menu.classList.remove('animate-slideDown');
+                }
+            });
+        });
+    </script>
+
+     <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>

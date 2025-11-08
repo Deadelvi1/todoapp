@@ -125,7 +125,7 @@
             </div>
         @endif
 
-        <form action="{{ route('study-tasks.store') }}" method="POST">
+        <form action="{{ route('study_tasks.store') }}" method="POST">
             @csrf
 
             <div class="form-group">
@@ -181,7 +181,7 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
-                <a href="{{ route('study-tasks.index') }}" class="btn-secondary">
+                <a href="{{ route('study_tasks.index') }}" class="btn-secondary">
                     ⬅ Kembali
                 </a>
                 <button type="submit" class="btn-primary">

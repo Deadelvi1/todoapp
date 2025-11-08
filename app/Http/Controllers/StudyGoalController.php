@@ -88,4 +88,42 @@ class StudyGoalController extends Controller
         $studyGoal->delete();
         return redirect()->route('study-goals.index')->with('success', 'Goal dihapus.');
     }
+
+    public function start($id)
+    {
+        $goal = StudyGoal::findOrFail($id);
+        $goal->status = 'active';
+        $goal->save();
+
+        $session = $goal->studySessions()->create([
+            'duration_minutes' => 0,
+            'note' => 'Session started at ' . now(),
+        ]);
+
+        return response()->json(['session_id' => $session->id]);
+    }
+
+    public function stop(Request $request, $id)
+    {
+        $goal = StudyGoal::findOrFail($id);
+        $session = StudySession::findOrFail($request->session_id);
+
+        $session->update([
+            'duration_minutes' => $request->duration_minutes,
+            'note' => 'Session ended at ' . now(),
+        ]);
+
+        // Update total hours & status goal
+        $totalMinutes = $goal->studySessions()->sum('duration_minutes');
+        $goal->achieved_hours = round($totalMinutes / 60, 2);
+
+        if ($goal->target_hours && $goal->achieved_hours >= $goal->target_hours) {
+            $goal->status = 'completed';
+        }
+
+        $goal->save();
+
+        return response()->json(['status' => $goal->status]);
+    }
+
 }

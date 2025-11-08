@@ -33,7 +33,7 @@
             </div>
         @endif
 
-        <form action="{{ route('study-tasks.update', $task->id) }}" method="POST">
+        <form action="{{ route('study_tasks.update', $task->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -71,7 +71,7 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
-                <a href="{{ route('study-tasks.index') }}" class="btn-secondary">⬅ Kembali</a>
+                <a href="{{ route('study_tasks.index') }}" class="btn-secondary">⬅ Kembali</a>
                 <button type="submit" class="btn-primary">💾 Simpan Perubahan</button>
             </div>
         </form>

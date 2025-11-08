@@ -7,36 +7,24 @@ use Illuminate\Http\Request;
 
 class StudyTaskController extends Controller
 {
+    // show list
     public function index()
     {
-        if (!session()->has('user')) {
-            return redirect()->route('create')->withErrors(['msg' => 'Harus login dulu']);
-        }
-
-        $userId = session('user')->id;
-
-        $tasks = StudyTask::where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $userId = session('user')->id ?? auth()->id();
+        $tasks = StudyTask::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
 
         return view('study_tasks.index', compact('tasks'));
     }
 
+    // show create form
     public function create()
     {
-        if (!session()->has('user')) {
-            return redirect()->route('create')->withErrors(['msg' => 'Harus login dulu']);
-        }
-
         return view('study_tasks.create');
     }
 
+    // store new task
     public function store(Request $request)
     {
-        if (!session()->has('user')) {
-            return redirect()->route('create')->withErrors(['msg' => 'Harus login dulu']);
-        }
-
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -45,41 +33,21 @@ class StudyTaskController extends Controller
             'deadline' => 'nullable|date',
         ]);
 
-        $userId = session('user')->id;
+        $data['user_id'] = session('user')->id ?? auth()->id();
+        StudyTask::create($data);
 
-        $payload = [
-            'user_id' => $userId,
-            'title' => $data['title'],
-            'description' => $data['description'] ?? null,
-            'priority' => $data['priority'] ?? 'medium',
-            'status' => $data['status'] ?? 'pending',
-            'deadline' => $data['deadline'] ?? null,
-        ];
-
-        StudyTask::create($payload);
-
-        return redirect()->route('study-tasks.index')->with('success', 'Task dibuat.');
+        return redirect()->route('study_tasks.index')->with('success', 'Task created.');
     }
 
-    public function show(StudyTask $studyTask)
+    // EDIT - render edit form (this is the one you were missing)
+    public function edit(StudyTask $study_task)
     {
-        if (!session()->has('user') || session('user')->id != $studyTask->user_id) {
-            return redirect()->route('study-tasks.index')->withErrors(['msg' => 'Tidak diizinkan']);
-        }
-
-        return view('study_tasks.show', ['task' => $studyTask]);
+        // pass the model as $task because your blade expects $task
+        return view('study_tasks.edit', ['task' => $study_task]);
     }
 
-    public function edit(StudyTask $studyTask)
-    {
-        if (!session()->has('user') || session('user')->id != $studyTask->user_id) {
-            return redirect()->route('study-tasks.index')->withErrors(['msg' => 'Tidak diizinkan']);
-        }
-
-        return view('study_tasks.edit', compact('studyTask'));
-    }
-
-    public function update(Request $request, StudyTask $studyTask)
+    // UPDATE - handle edit submission
+    public function update(Request $request, StudyTask $study_task)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
@@ -89,23 +57,28 @@ class StudyTaskController extends Controller
             'deadline' => 'nullable|date',
         ]);
 
-        if (!session()->has('user') || session('user')->id != $studyTask->user_id) {
-            return redirect()->route('study-tasks.index')->withErrors(['msg' => 'Tidak diizinkan']);
-        }
+        $study_task->update($data);
 
-        $studyTask->update($data);
-
-        return redirect()->route('study-tasks.index')->with('success', 'Task diperbarui.');
+        return redirect()->route('study_tasks.index')->with('success', 'Task updated.');
     }
 
-    public function destroy(StudyTask $studyTask)
+    // SHOW (optional, used by your index blade)
+    public function show(StudyTask $study_task)
     {
-        if (!session()->has('user') || session('user')->id != $studyTask->user_id) {
-            return redirect()->route('study-tasks.index')->withErrors(['msg' => 'Tidak diizinkan']);
-        }
+        return view('study_tasks.show', ['task' => $study_task]);
+    }
 
-        $studyTask->delete();
-        return redirect()->route('study-tasks.index')->with('success', 'Task dihapus.');
+    // DELETE
+    public function destroy(StudyTask $study_task)
+    {
+        $study_task->delete();
+        return redirect()->route('study_tasks.index')->with('success', 'Task deleted.');
+    }
+
+    // mark complete (optional)
+    public function complete(StudyTask $study_task)
+    {
+        $study_task->update(['status' => 'completed']);
+        return redirect()->back()->with('success', 'Task marked complete.');
     }
 }
-

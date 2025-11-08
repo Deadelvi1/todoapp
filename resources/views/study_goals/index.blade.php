@@ -1,90 +1,257 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Menambahkan script dan style yang diperlukan --}}
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
     body { font-family: 'Poppins', sans-serif; }
+    .modal-bg { background-color: rgba(0,0,0,0.4); }
 </style>
 
 <div class="relative max-w-[1440px] mx-auto px-6 py-20">
-    <!-- Glow Background -->
-    <div class="absolute top-[100px] left-0 w-[280px] h-[280px] bg-gradient-to-tr from-indigo-800 to-sky-400 rounded-full blur-[100px] opacity-50"></div>
+    <div class="absolute top-[120px] left-0 w-[300px] h-[300px] bg-gradient-to-tr from-indigo-800 to-sky-400 rounded-full blur-[100px] opacity-40"></div>
 
-    <div class="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-8">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-            <h1 class="font-semibold text-2xl text-black flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" class="text-indigo-800">
+    <div class="relative bg-white/30 backdrop-blur-xl border border-white/40 rounded-2xl shadow-2xl p-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+            <h1 class="font-semibold text-3xl text-gray-800 flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="text-indigo-700">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
                         <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2S4 3 4 3v12z"/>
                         <path d="M4 22v-7"/>
                     </g>
                 </svg>
-                Daftar Study Goals
+                Study Time Tracker
             </h1>
-            <a href="{{ route('study-goals.create') }}" class="mt-4 sm:mt-0 bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-5 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
+
+            <a href="{{ route('study-goals.create') }}" 
+               class="mt-4 sm:mt-0 bg-gradient-to-tr from-indigo-200 to-sky-300 text-gray-800 px-6 py-2.5 rounded-xl hover:scale-95 transition-all duration-300 flex items-center gap-2 font-medium shadow-sm hover:shadow-md">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M18 12h-6m0 0H6m6 0V6m0 6v6"/>
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 6v12m6-6H6"/>
                 </svg>
                 Tambah Goal Baru
             </a>
         </div>
 
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-            <table class="w-full text-sm text-left bg-white">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <div class="overflow-x-auto rounded-2xl border border-gray-200 shadow-lg bg-white">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-gray-700 uppercase bg-gradient-to-r from-indigo-100 to-sky-100">
                     <tr>
-                        <th scope="col" class="px-6 py-3">Goal</th>
-                        <th scope="col" class="px-6 py-3">Target</th>
-                        <th scope="col" class="px-6 py-3">Tercapai</th>
-                        <th scope="col" class="px-6 py-3">Status</th>
-                        <th scope="col" class="px-6 py-3 text-right">Aksi</th>
+                        <th class="px-6 py-4">Goal</th>
+                        <th class="px-6 py-4 text-center">Target (Jam)</th>
+                        <th class="px-6 py-4 text-center">Progress</th>
+                        <th class="px-6 py-4 text-center">Timer</th>
+                        <th class="px-6 py-4 text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                @forelse($goals as $g)
-                    @php
-                        $minutes = $g->study_sessions_sum_duration_minutes ?? 0;
-                        $hours = intdiv($minutes, 60);
-                        $remainingMinutes = $minutes % 60;
-                    @endphp
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="px-6 py-4 font-medium text-gray-900">{{ $g->title }}</td>
-                        <td class="px-6 py-4 text-gray-600">{{ $g->target_hours ? $g->target_hours . ' jam' : 'N/A' }}</td>
-                        <td class="px-6 py-4 text-gray-600">{{ $hours }} jam {{ $remainingMinutes }} menit</td>
-                        <td class="px-6 py-4">
-                            @if($g->status == 'completed')
-                                <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Selesai</span>
-                            @else
-                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Berjalan</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="{{ route('study-goals.edit', $g) }}" class="text-xs text-blue-700 bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded-md transition-colors">Edit</a>
-                            <form action="{{ route('study-goals.destroy', $g) }}" method="POST" class="inline-block" onsubmit="return confirm('Anda yakin ingin menghapus goal ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-xs text-red-700 bg-red-100 hover:bg-red-200 px-2 py-1 rounded-md transition-colors">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-10 text-gray-500">
-                            Anda belum memiliki goal. <a href="{{ route('study-goals.create') }}" class="text-indigo-600 hover:underline">Buat goal pertama Anda!</a>
-                        </td>
-                    </tr>
-                @endforelse
+                    @forelse($goals as $g)
+                        @php
+                            $minutes = $g->study_sessions_sum_duration_minutes ?? 0;
+                            $hours = round($minutes / 60, 2);
+                            $progress = $g->target_hours > 0 ? min(($hours / $g->target_hours) * 100, 100) : 0;
+                        @endphp
+                        <tr class="border-b border-gray-200 hover:bg-indigo-50 transition-all duration-300" id="goal-{{ $g->id }}">
+                            <td class="px-6 py-4 font-medium text-gray-900">{{ $g->title }}</td>
+                            <td class="px-6 py-4 text-center text-gray-700">{{ $g->target_hours }}</td>
+                            <td class="px-6 py-4">
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-indigo-500 h-2.5 rounded-full transition-all duration-300" style="width: {{ $progress }}%"></div>
+                                </div>
+                                <p class="text-xs text-gray-600 mt-1 text-center">{{ $hours }} jam ({{ number_format($progress, 0) }}%)</p>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span id="timer-{{ $g->id }}" class="font-mono text-lg text-gray-800">00:00:00</span>
+                            </td>
+                            <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
+                                <button onclick="startTimer('{{ $g->id }}')" class="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-md hover:bg-green-200 shadow-sm">Start</button>
+                                <button onclick="pauseTimer('{{ $g->id }}')" class="text-xs bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded-md hover:bg-yellow-200 shadow-sm">Pause</button>
+                                <button onclick="openFinishModal('{{ $g->id }}')" class="text-xs bg-blue-100 text-blue-700 px-3 py-1.5 rounded-md hover:bg-blue-200 shadow-sm">Finish</button>
+                                <a href="{{ route('study-goals.edit', $g->id) }}" class="text-xs bg-purple-100 text-purple-700 px-3 py-1.5 rounded-md hover:bg-purple-200 shadow-sm">Edit</a>
+                                <form action="{{ route('study-goals.destroy', $g->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus goal ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-xs bg-red-100 text-red-700 px-3 py-1.5 rounded-md hover:bg-red-200 shadow-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-12 text-gray-500">
+                                Belum ada goal yang dibuat. 
+                                <a href="{{ route('study-goals.create') }}" class="text-indigo-600 hover:underline font-medium">
+                                    Buat goal pertama Anda!
+                                </a>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- MODAL KONFIRMASI FINISH -->
+<div id="finishModal" class="fixed inset-0 hidden items-center justify-center modal-bg z-50">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 text-center w-[90%] max-w-sm">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Apakah kamu yakin ingin menyelesaikan sesi ini?</h2>
+        <div class="flex justify-center gap-4">
+            <button id="confirmFinish" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Ya</button>
+            <button id="cancelFinish" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition">Tidak</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let activeGoal = null;
+let timerInterval = null;
+let startTime = null;
+let elapsedSeconds = 0;
+let pendingFinishGoal = null;
+
+// === Restore timer ===
+window.addEventListener("load", () => {
+    const saved = JSON.parse(localStorage.getItem("studyTimer"));
+    if (saved && saved.isRunning) {
+        activeGoal = saved.goalId;
+        startTime = new Date(saved.startTime);
+        elapsedSeconds = Math.floor((Date.now() - startTime.getTime()) / 1000) + saved.elapsedSeconds;
+        resumeTimer(activeGoal);
+    }
+});
+
+function updateDisplay(goalId) {
+    const hrs = Math.floor(elapsedSeconds / 3600);
+    const mins = Math.floor((elapsedSeconds % 3600) / 60);
+    const secs = elapsedSeconds % 60;
+    document.getElementById(`timer-${goalId}`).textContent =
+        `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+}
+
+function startTimer(goalId) {
+    if (activeGoal && activeGoal !== goalId) {
+        alert("Timer lain masih berjalan. Selesaikan dulu sebelum mulai yang baru.");
+        return;
+    }
+
+    if (!activeGoal) {
+        activeGoal = goalId;
+        startTime = new Date();
+        elapsedSeconds = 0;
+        saveState(true);
+    }
+
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        elapsedSeconds++;
+        updateDisplay(goalId);
+        saveState(true);
+    }, 1000);
+}
+
+function pauseTimer(goalId) {
+    if (goalId !== activeGoal) return;
+    clearInterval(timerInterval);
+    timerInterval = null;
+    saveState(false);
+}
+
+function resumeTimer(goalId) {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        elapsedSeconds++;
+        updateDisplay(goalId);
+        saveState(true);
+    }, 1000);
+    updateDisplay(goalId);
+}
+
+function openFinishModal(goalId) {
+    if (goalId !== activeGoal) {
+        alert("Mulai dulu timernya sebelum menyelesaikan.");
+        return;
+    }
+    pauseTimer(goalId);
+    pendingFinishGoal = goalId;
+    document.getElementById("finishModal").classList.remove("hidden");
+    document.getElementById("finishModal").classList.add("flex");
+}
+
+document.getElementById("cancelFinish").addEventListener("click", () => {
+    document.getElementById("finishModal").classList.add("hidden");
+    document.getElementById("finishModal").classList.remove("flex");
+    resumeTimer(pendingFinishGoal);
+});
+
+document.getElementById("confirmFinish").addEventListener("click", () => {
+    document.getElementById("finishModal").classList.add("hidden");
+    document.getElementById("finishModal").classList.remove("flex");
+    finishSession(pendingFinishGoal);
+});
+
+function finishSession(goalId) {
+    const minutes = Math.floor(elapsedSeconds / 60);
+    if (minutes < 1) {
+        alert("Minimal 1 menit untuk menyimpan sesi.");
+        resumeTimer(goalId);
+        return;
+    }
+
+    fetch(`/study-sessions`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            study_goal_id: goalId,
+            duration_minutes: minutes,
+            note: "Session finished via tracker"
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        alert(`Sesi belajar tersimpan: ${minutes} menit`);
+        resetTimer();
+        location.reload();
+    })
+    .catch(err => console.error(err));
+}
+
+function saveState(isRunning) {
+    localStorage.setItem("studyTimer", JSON.stringify({
+        goalId: activeGoal,
+        startTime: startTime.toISOString(),
+        elapsedSeconds,
+        isRunning
+    }));
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    activeGoal = null;
+    elapsedSeconds = 0;
+    pendingFinishGoal = null;
+    localStorage.removeItem("studyTimer");
+}
+
+// === Sync antar tab ===
+window.addEventListener("storage", e => {
+    if (e.key === "studyTimer") {
+        const saved = JSON.parse(e.newValue);
+        if (!saved) {
+            resetTimer();
+            return;
+        }
+        if (saved.isRunning) {
+            activeGoal = saved.goalId;
+            elapsedSeconds = saved.elapsedSeconds;
+            startTime = new Date(saved.startTime);
+            resumeTimer(activeGoal);
+        } else {
+            pauseTimer(saved.goalId);
+        }
+    }
+});
+</script>
 @endsection

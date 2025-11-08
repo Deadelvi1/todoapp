@@ -5,18 +5,16 @@
   <!-- Glow Background -->
   <div class="absolute top-[240px] lg:top-[160px] left-0 w-[320px] h-[320px] bg-gradient-to-tr from-indigo-800 to-sky-400 rounded-full blur-[120px] opacity-60"></div>
 
-  <div class="relative max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+  <!-- ===== Summary Section ===== -->
+  <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
 
-    <!-- Total Study Goals -->
+    <!-- Study Goals -->
     <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 hover:scale-[0.98] transition-all duration-300">
       <div class="flex flex-col items-center">
         <div class="w-12 h-12 bg-gradient-to-tr from-indigo-800 to-sky-400 rounded-xl flex items-center justify-center mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flag">
-            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2S4 3 4 3v12Z" />
-            <path d="M4 22v-7" />
-          </svg>
+          <i data-lucide="flag" class="text-white w-6 h-6"></i>
         </div>
-        <h5 class="text-lg font-semibold text-black mb-1">Total Study Goals</h5>
+        <h5 class="text-lg font-semibold text-black mb-1">Your Study Goals</h5>
         <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-indigo-800 to-sky-400">
           {{ $totalGoals }}
         </p>
@@ -27,92 +25,96 @@
     <div class="bg-gradient-to-tr from-indigo-800 to-sky-400 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 hover:scale-[0.98] transition-all duration-300">
       <div class="flex flex-col items-center text-white">
         <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
+          <i data-lucide="clock" class="w-6 h-6"></i>
         </div>
-        <h5 class="text-lg font-semibold mb-1">Total Study Time</h5>
+        <h5 class="text-lg font-semibold mb-1">Total Study Hours</h5>
         <p class="text-3xl font-bold">{{ round($totalMinutes / 60, 1) }}h</p>
       </div>
     </div>
 
-    <!-- Active Tasks -->
+    <!-- Pending Tasks -->
     <div class="bg-gradient-to-tr from-indigo-100 to-sky-200 border border-white/20 rounded-2xl shadow-lg p-6 hover:scale-[0.98] transition-all duration-300">
       <div class="flex flex-col items-center">
         <div class="w-12 h-12 bg-indigo-400/20 rounded-xl flex items-center justify-center mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-checks">
-            <path d="m3 17 2 2 4-4M3 7l2 2 4-4m5 2h8M14 12h8m-8 5h8"/>
-          </svg>
+          <i data-lucide="list-checks" class="text-black w-6 h-6"></i>
         </div>
-        <h5 class="text-lg font-semibold text-black mb-1">Active Tasks</h5>
+        <h5 class="text-lg font-semibold text-black mb-1">Pending Tasks</h5>
         <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-indigo-800 to-sky-400">
-          {{ $activeTodos }}
+          {{ $pendingTasks }}
         </p>
       </div>
     </div>
-
   </div>
 
-  <!-- Grid Container -->
+  <!-- ===== Grid Container ===== -->
   <div class="relative grid grid-cols-2 gap-8 justify-center items-start mt-8">
+    
     <!-- ===== Tasks Section ===== -->
     <div class="col-span-2 lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6">
       <h2 class="font-semibold text-xl mb-5 text-black flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-             viewBox="0 0 24 24" class="text-indigo-800">
-          <g fill="none" stroke="currentColor" stroke-linecap="square" stroke-width="1.6">
-            <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2a10 10 0 0 1 3.847.767"/>
-            <path d="m22 4.5l-10 10L7.5 10"/>
-          </g>
-        </svg>
-        Tasks
+        <i data-lucide="check-square" class="text-indigo-800 w-6 h-6"></i> Study Tasks
       </h2>
 
       <!-- Input Task -->
       <div class="flex gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Add a new task..."
-          class="flex-1 bg-white/10 text-black border border-gray-200 hover:border-gray-700 focus:ring-1 focus:ring-sky-400 outline-none rounded-lg px-3 py-2 placeholder-gray-700"
-        >
-        <a href="{{ route('todos.create') }}" class="bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-5 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M18 12h-6m0 0H6m6 0V6m0 6v6"/>
-          </svg>
+        <input type="text" placeholder="Add a new task..."
+          class="flex-1 bg-white/10 text-black border border-gray-200 hover:border-gray-700 focus:ring-1 focus:ring-sky-400 outline-none rounded-lg px-3 py-2 placeholder-gray-700">
+        <a href="{{ route('study_tasks.create') }}" 
+           class="bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-5 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
+          <i data-lucide="plus" class="w-5 h-5"></i>
           Task
         </a>
       </div>
 
       <!-- Task Table -->
       <div class="mt-4 overflow-x-auto">
-        @if($activeTodos > 0 && isset($recentTodos) && $recentTodos->count() > 0)
+        @if(isset($recentTasks) && $recentTasks->count() > 0)
           <table class="w-full text-sm text-left">
             <thead class="text-xs text-black/60 uppercase bg-white/10">
               <tr>
-                <th scope="col" class="px-4 py-3">Tugas</th>
-                <th scope="col" class="px-4 py-3 text-right">Aksi</th>
+                <th class="px-4 py-3">Title</th>
+                <th class="px-4 py-3">Priority</th>
+                <th class="px-4 py-3">Deadline</th>
+                <th class="px-4 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($recentTodos as $todo)
+              @foreach($recentTasks as $task)
                 <tr class="border-b border-white/10 hover:bg-white/10">
                   <td class="px-4 py-3">
-                    <p class="text-black/90 font-medium">{{ $todo->title }}</p>
-                    <p class="text-xs text-black/50">{{ $todo->created_at->format('d M Y') }}</p>
+                    <p class="text-black/90 font-medium">{{ $task->title }}</p>
+                    <p class="text-xs text-black/50">{{ $task->created_at->format('d M Y') }}</p>
                   </td>
-                  <td class="px-4 py-3">
-                    <div class="flex items-center justify-end gap-2">
-                      <form action="{{ route('todos.complete', $todo->id) }}" method="POST">
+                  <td class="px-4 py-3 capitalize text-black/80">
+                    <span class="@if($task->priority === 'high') text-red-600 @elseif($task->priority === 'medium') text-yellow-600 @else text-green-600 @endif font-semibold">
+                      {{ $task->priority }}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3 text-black/70">
+                    {{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('d M Y') : '-' }}
+                  </td>
+                  <td class="px-4 py-3 text-right">
+                    <div class="flex items-center justify-end gap-3">
+                      @if($task->status !== 'completed')
+                        <form action="{{ route('study_tasks.complete', $task->id) }}" method="POST" title="Mark as complete">
                           @csrf
                           @method('PATCH')
-                          <button type="submit" class="text-xs text-green-600 bg-green-100/50 hover:bg-green-200/50 px-2 py-1 rounded-md transition-colors">Selesai</button>
-                      </form>
-                      <a href="{{ route('todos.edit', $todo->id) }}" class="text-xs text-blue-600 bg-blue-100/50 hover:bg-blue-200/50 px-2 py-1 rounded-md transition-colors">Edit</a>
-                      <form action="{{ route('todos.destroy', $todo->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus tugas ini?');">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="text-xs text-red-600 bg-red-100/50 hover:bg-red-200/50 px-2 py-1 rounded-md transition-colors">Hapus</button>
+                          <button type="submit" class="text-green-600 hover:text-green-700">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                          </button>
+                        </form>
+                      @endif
+
+                      <a href="{{ route('study_tasks.edit', $task->id) }}" title="Edit task" class="text-blue-600 hover:text-blue-700">
+                        <i data-lucide="pencil-line" class="w-5 h-5"></i>
+                      </a>
+
+                      <form action="{{ route('study_tasks.destroy', $task->id) }}" method="POST" title="Delete task" onsubmit="return confirm('Delete this task?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-600 hover:text-red-700">
+                          <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        </button>
                       </form>
                     </div>
                   </td>
@@ -121,72 +123,68 @@
             </tbody>
           </table>
         @else
-          <!-- Empty State -->
           <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-black/70 text-sm text-center">
-            Belum ada tugas aktif. Tambahkan tugas pertama Anda di atas.
+            No pending study tasks yet. Add one above.
           </div>
         @endif
       </div>
     </div>
 
-    <!-- ===== Goals & Timer Section ===== -->
+    <!-- ===== Study Goals Section ===== -->
     <div class="col-span-2 lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6">
       <h2 class="font-semibold text-xl mb-5 text-black flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="text-indigo-800">
-          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
-            <path d="M10.66 10.66A1.9 1.9 0 0 0 10.1 12a1.9 1.9 0 0 0 1.9 1.9a1.9 1.9 0 0 0 1.34-.56"/>
-            <path d="M12 6.3a5.7 5.7 0 1 0 5.7 5.7"/>
-            <path d="M12 2.5a9.5 9.5 0 1 0 9.5 9.5m-5.975-3.524L12.95 11.05"/>
-            <path d="M20.94 5.844L17.7 6.3l.456-3.24a.19.19 0 0 0-.313-.161l-2.148 2.137a1.9 1.9 0 0 0-.513 1.72l.342 1.72l1.72.341a1.9 1.9 0 0 0 1.72-.513L21.1 6.157a.19.19 0 0 0-.162-.313"/>
-          </g>
-        </svg>
-        Goals & Timer
+        <i data-lucide="target" class="text-indigo-800 w-6 h-6"></i> Study Goals
       </h2>
 
-      <!-- Input Goal -->
-      <div class="flex flex-col sm:flex-row gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Add a goal..."
-          class="flex-1 bg-white/10 text-black border border-gray-200 hover:border-gray-700 focus:ring-1 focus:ring-sky-400 outline-none rounded-lg px-3 py-2 placeholder-gray-700"
-        >
-        <input
-          type="number"
-          value="25"
-          class="w-full sm:w-24 bg-white/10 text-black border border-gray-200 hover:border-gray-700 focus:ring-1 focus:ring-sky-400 outline-none rounded-lg px-3 py-2 block"
-        >
-        <button class="hover:scale-95 transition-all duration-300 bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-4 py-2 rounded-lg items-center justify-center gap-1 flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M18 12h-6m0 0H6m6 0V6m0 6v6"/>
-          </svg>
-          Goal
-        </button>
+      <div class="flex justify-between items-center mb-4">
+        <p class="text-black/70 text-sm">Your active learning targets</p>
+        <a href="{{ route('study-goals.create') }}" 
+           class="bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-4 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
+          <i data-lucide="plus" class="w-4 h-4"></i> Add Goal
+        </a>
       </div>
 
-      <!-- Empty State -->
-      <p class="text-red-400 text-sm mb-2">Not Found</p>
-      <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-black/70 text-sm text-center mb-8">
-        No goals yet. Create one above.
-      </div>
-
-      <!-- Timer -->
-      <div class="text-center">
-        <h3 class="text-5xl font-bold mb-1 text-black tracking-wider">00:00</h3>
-        <p class="text-black/60 mb-6 text-sm">Ready</p>
-
-        <div class="flex flex-wrap justify-center gap-3">
-          <button class="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 hover:scale-95 transition-all duration-300">Start Timer</button>
-          <button class="bg-white/10 text-black px-5 py-2 rounded-xl hover:bg-white/20 transition-all">Stop</button>
-          <button class="flex items-center gap-2 bg-white/10 text-black px-5 py-2 rounded-xl hover:bg-white/20 transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14m0 0V10m0 4L9 10m0 4V10m0 4L3 10m0 4V10" />
-            </svg>
-            Test Sound
-          </button>
-        </div>
+      <div class="overflow-x-auto">
+        @if(isset($goals) && $goals->count() > 0)
+          <table class="w-full text-sm text-left">
+            <thead class="text-xs text-black/60 uppercase bg-white/10">
+              <tr>
+                <th class="px-4 py-3">Title</th>
+                <th class="px-4 py-3">Target (h)</th>
+                <th class="px-4 py-3">Achieved (h)</th>
+                <th class="px-4 py-3">Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($goals as $goal)
+                @php
+                  $progress = $goal->target_hours > 0 ? round(($goal->achieved_hours / $goal->target_hours) * 100, 1) : 0;
+                @endphp
+                <tr class="border-b border-white/10 hover:bg-white/10">
+                  <td class="px-4 py-3 text-black/90 font-medium">{{ $goal->title }}</td>
+                  <td class="px-4 py-3 text-black/80">{{ $goal->target_hours }}</td>
+                  <td class="px-4 py-3 text-black/80">{{ $goal->achieved_hours }}</td>
+                  <td class="px-4 py-3">
+                    <div class="w-full bg-white/20 rounded-full h-2.5">
+                      <div class="bg-gradient-to-r from-indigo-700 to-sky-400 h-2.5 rounded-full" style="width: {{ $progress }}%"></div>
+                    </div>
+                    <p class="text-xs text-black/60 mt-1">{{ $progress }}%</p>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        @else
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-black/70 text-sm text-center">
+            No study goals yet. Add one to start tracking.
+          </div>
+        @endif
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  lucide.createIcons();
+</script>
 @endsection

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StudyGoal;
 use App\Models\StudySession;
-use App\Models\Todo;
+use App\Models\StudyTask;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
@@ -14,7 +14,7 @@ class WelcomeController extends Controller
         if (session()->has('user')) {
             return redirect()->route('dashboard');
         }
-            return view('welcome');
+        return view('landing');
     }
 
     public function index()
@@ -24,32 +24,38 @@ class WelcomeController extends Controller
         }
 
         $userId = session('user')->id;
+
         $data = [
             'totalGoals' => StudyGoal::where('user_id', $userId)->count(),
-            'totalMinutes' => StudySession::whereHas('studyGoal', function($q) use ($userId) {
+            'totalMinutes' => StudySession::whereHas('studyGoal', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })->sum('duration_minutes'),
-            'activeTodos' => Todo::where([
-                'user_id' => $userId,
-                'is_done' => false
-            ])->count(),
-            'recentTodos' => Todo::where([
-                'user_id' => $userId,
-                'is_done' => false
-            ])->orderBy('created_at', 'desc')->take(5)->get(),
+
+            // renamed this to match the Blade variable name
+            'pendingTasks' => StudyTask::where('user_id', $userId)
+                ->where('status', '!=', 'completed')
+                ->count(),
+
+            'recentTasks' => StudyTask::where('user_id', $userId)
+                ->where('status', '!=', 'completed')
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get(),
+
             'recentGoals' => StudyGoal::where('user_id', $userId)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
                 ->get(),
+
             'recentSessions' => StudySession::with('studyGoal')
-                ->whereHas('studyGoal', function($q) use ($userId) {
+                ->whereHas('studyGoal', function ($q) use ($userId) {
                     $q->where('user_id', $userId);
                 })
                 ->orderBy('created_at', 'desc')
                 ->take(5)
-                ->get()
+                ->get(),
         ];
 
-            return view('dashboard', $data);
+        return view('dashboard', $data);
     }
 }
