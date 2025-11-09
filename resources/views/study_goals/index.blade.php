@@ -11,10 +11,10 @@
 <div class="relative max-w-[1440px] mx-auto px-6 py-20">
     <div class="absolute top-[120px] left-0 w-[300px] h-[300px] bg-gradient-to-tr from-indigo-800 to-sky-400 rounded-full blur-[100px] opacity-40"></div>
 
-    <div class="relative bg-white/30 backdrop-blur-xl border border-white/40 rounded-2xl shadow-2xl p-8">
+    <div class="relative bg-white/30 backdrop-blur-xl border border-white/40 rounded-lg shadow-2xl p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
             <h1 class="font-semibold text-3xl text-gray-800 flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="text-indigo-700">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="text-indigo-700">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
                         <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2S4 3 4 3v12z"/>
                         <path d="M4 22v-7"/>
@@ -23,7 +23,7 @@
                 Study Time Tracker
             </h1>
 
-            <a href="{{ route('study-goals.create') }}" 
+            <a href="{{ route('study-goals.create') }}"
                class="mt-4 sm:mt-0 bg-gradient-to-tr from-indigo-200 to-sky-300 text-gray-800 px-6 py-2.5 rounded-xl hover:scale-95 transition-all duration-300 flex items-center gap-2 font-medium shadow-sm hover:shadow-md">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 6v12m6-6H6"/>
@@ -32,18 +32,18 @@
             </a>
         </div>
 
-        <div class="overflow-x-auto rounded-2xl border border-gray-200 shadow-lg bg-white">
+        <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-lg bg-white">
             <table class="w-full text-sm text-left">
-                <thead class="text-xs text-gray-700 uppercase bg-gradient-to-r from-indigo-100 to-sky-100">
+                <thead class="text-sm text-white uppercase bg-gradient-to-tr from-indigo-800 to-sky-400">
                     <tr>
                         <th class="px-6 py-4">Goal</th>
                         <th class="px-6 py-4 text-center">Target (Jam)</th>
                         <th class="px-6 py-4 text-center">Progress</th>
                         <th class="px-6 py-4 text-center">Timer</th>
-                        <th class="px-6 py-4 text-right">Aksi</th>
+                        <th class="px-6 py-4 text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-sm">
                     @forelse($goals as $g)
                         @php
                             $minutes = $g->study_sessions_sum_duration_minutes ?? 0;
@@ -62,22 +62,22 @@
                             <td class="px-6 py-4 text-center">
                                 <span id="timer-{{ $g->id }}" class="font-mono text-lg text-gray-800">00:00:00</span>
                             </td>
-                            <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
-                                <button onclick="startTimer('{{ $g->id }}')" class="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-md hover:bg-green-200 shadow-sm">Start</button>
-                                <button onclick="pauseTimer('{{ $g->id }}')" class="text-xs bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded-md hover:bg-yellow-200 shadow-sm">Pause</button>
-                                <button onclick="openFinishModal('{{ $g->id }}')" class="text-xs bg-blue-100 text-blue-700 px-3 py-1.5 rounded-md hover:bg-blue-200 shadow-sm">Finish</button>
-                                <a href="{{ route('study-goals.edit', $g->id) }}" class="text-xs bg-purple-100 text-purple-700 px-3 py-1.5 rounded-md hover:bg-purple-200 shadow-sm">Edit</a>
+                            <td class="px-6 py-4 text-right flex justify-end items-center gap-2 pr-20">
+                                <button onclick="startTimer('{{ $g->id }}')" class="text-xs text-green-700 px-3 py-1.5 rounded-md hover:bg-green-200 "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg></button>
+                                <button onclick="pauseTimer('{{ $g->id }}')" class="text-xs text-yellow-700 px-3 py-1.5 rounded-md hover:bg-yellow-200 "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.6" d="M20.2 3h-4.4a.8.8 0 0 0-.8.8v16.4a.8.8 0 0 0 .8.8h4.4a.8.8 0 0 0 .8-.8V3.8a.8.8 0 0 0-.8-.8Zm-12 0H3.8a.8.8 0 0 0-.8.8v16.4a.8.8 0 0 0 .8.8h4.4a.8.8 0 0 0 .8-.8V3.8a.8.8 0 0 0-.8-.8Z"/></svg></button>
+                                <button onclick="openFinishModal('{{ $g->id }}')" class="text-xs text-rose-700 px-3 py-1.5 rounded-md hover:bg-blue-200 "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/></svg></button>
+                                <a href="{{ route('study-goals.edit', $g->id) }}" class="text-xs text-blue-600 px-3 py-1.5 rounded-md hover:bg-purple-200 "><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></g></svg></a>
                                 <form action="{{ route('study-goals.destroy', $g->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus goal ini?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-xs bg-red-100 text-red-700 px-3 py-1.5 rounded-md hover:bg-red-200 shadow-sm">Delete</button>
+                                    <button type="submit" class="text-xs text-red-700 px-3 py-1.5 rounded-md hover:bg-red-200 shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" d="m19.5 5.5l-.62 10.025c-.158 2.561-.237 3.842-.88 4.763a4 4 0 0 1-1.2 1.128c-.957.584-2.24.584-4.806.584c-2.57 0-3.855 0-4.814-.585a4 4 0 0 1-1.2-1.13c-.642-.922-.72-2.205-.874-4.77L4.5 5.5M3 5.5h18m-4.944 0l-.683-1.408c-.453-.936-.68-1.403-1.071-1.695a2 2 0 0 0-.275-.172C13.594 2 13.074 2 12.035 2c-1.066 0-1.599 0-2.04.234a2 2 0 0 0-.278.18c-.395.303-.616.788-1.058 1.757L8.053 5.5"/></svg></button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="5" class="text-center py-12 text-gray-500">
-                                Belum ada goal yang dibuat. 
+                                Belum ada goal yang dibuat.
                                 <a href="{{ route('study-goals.create') }}" class="text-indigo-600 hover:underline font-medium">
                                     Buat goal pertama Anda!
                                 </a>

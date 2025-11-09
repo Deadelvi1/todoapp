@@ -51,6 +51,7 @@ Route::middleware([\App\Http\Middleware\AuthCheck::class])->group(function () {
         Route::post('/sessions', [StudySessionController::class, 'store'])->name('store');
     });
 
+    Route::resource('sessions', StudySessionsController::class);
 
     Route::put('/study-sessions/{id}', [StudySessionController::class, 'update'])->name('studySessions.update');
     Route::delete('/study-sessions/{id}', [StudySessionController::class, 'destroy'])->name('studySessions.destroy');

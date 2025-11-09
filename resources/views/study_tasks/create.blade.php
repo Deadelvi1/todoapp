@@ -1,123 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    /* === Custom Styling for Add Study Task Page === */
-    body {
-        background-color: #f6f8fb;
-    }
-
-    .form-card {
-        max-width: 650px;
-        margin: 60px auto;
-        background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        padding: 35px 45px;
-        animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(10px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
-
-    h2.title {
-        font-weight: 700;
-        font-size: 1.9rem;
-        color: #1d3557;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 6px;
-    }
-
-    .form-control, .form-select {
-        border-radius: 8px;
-        padding: 10px 12px;
-        border: 1px solid #ced4da;
-        transition: all 0.2s ease;
-        width: 100%;
-    }
-
-    .form-control:focus, .form-select:focus {
-        border-color: #1e90ff;
-        box-shadow: 0 0 0 0.2rem rgba(30,144,255,0.2);
-        outline: none;
-    }
-
-    .btn-primary {
-        background: #1e90ff;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 22px;
-        font-weight: 600;
-        transition: 0.2s;
-        cursor: pointer;
-    }
-
-    .btn-primary:hover {
-        background: #007bff;
-        transform: scale(1.02);
-    }
-
-    .btn-secondary {
-        background: #f1f1f1;
-        color: #333;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 22px;
-        font-weight: 500;
-        transition: 0.2s;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    .btn-secondary:hover {
-        background: #e2e2e2;
-        text-decoration: none;
-        color: #333;
-    }
-
-    .alert-danger {
-        color: #721c24;
-        background: #f8d7da;
-        border: 1px solid #f5c6cb;
-        border-radius: 8px;
-        padding: 12px 15px;
-        margin-bottom: 20px;
-        font-size: 14px;
-    }
-
-    .alert-danger ul {
-        margin: 8px 0 0 0;
-        padding-left: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .help-text {
-        font-size: 13px;
-        color: #6c757d;
-        margin-top: 5px;
-    }
-</style>
-
-<div class="container">
-    <div class="form-card">
-        <h2 class="title">📝 Tambah Study Task</h2>
+<div class=" flex items-center justify-center py-12 px-4">
+      <!-- Glow Background -->
+  <div class="absolute top-[240px] lg:top-[240px] left-0 lg:left-[80px] w-[320px] h-[320px] bg-gradient-to-tr from-indigo-800 to-sky-400 rounded-full blur-[120px] opacity-60"></div>
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-10 animate-fadeIn">
+        <div class="flex items-center justify-center gap-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="text-indigo-800" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="square" stroke-width="1.6" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2a10 10 0 0 1 3.847.767M22 4.5l-10 10L7.5 10M19 16v3m0 0v3m0-3h-3m3 0h3"/></svg>
+            <h2 class="text-3xl font-bold text-center text-[#1d3557] ">
+                Tambah Study Task</h2>
+        </div>
 
         @if ($errors->any())
-            <div class="alert alert-danger">
-                <strong>Terjadi kesalahan!</strong>
-                <ul>
+            <div class="mb-6 rounded-lg border border-red-300 bg-red-100 text-red-800 p-4 text-sm">
+                <strong class="block font-semibold mb-1">Terjadi kesalahan!</strong>
+                <ul class="list-disc pl-5 space-y-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -125,71 +22,88 @@
             </div>
         @endif
 
-        <form action="{{ route('study_tasks.store') }}" method="POST">
+        <form action="{{ route('study_tasks.store') }}" method="POST" class="space-y-6">
             @csrf
 
-            <div class="form-group">
-                <label for="title" class="form-label">Judul Task</label>
-                <input 
-                    type="text" 
-                    name="title" 
-                    id="title" 
-                    class="form-control" 
-                    placeholder="Contoh: Belajar Laravel, Mengerjakan Tugas, dll" 
+            {{-- Judul Task --}}
+            <div>
+                <label for="title" class="block text-sm font-semibold text-gray-800 mb-1">Judul Task</label>
+                <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    placeholder="Contoh: Belajar Laravel, Mengerjakan Tugas, dll"
+                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                     required
                     value="{{ old('title') }}">
-                <div class="help-text">Masukkan judul task yang akan dikerjakan</div>
+                <p class="text-xs text-gray-500 mt-1">Masukkan judul task yang akan dikerjakan</p>
             </div>
 
-            <div class="form-group">
-                <label for="description" class="form-label">Deskripsi (Opsional)</label>
-                <textarea 
-                    name="description" 
-                    id="description" 
-                    rows="4" 
-                    class="form-control" 
-                    placeholder="Tulis deskripsi detail tentang task ini...">{{ old('description') }}</textarea>
+            {{-- Deskripsi --}}
+            <div>
+                <label for="description" class="block text-sm font-semibold text-gray-800 mb-1">Deskripsi (Opsional)</label>
+                <textarea
+                    name="description"
+                    id="description"
+                    rows="4"
+                    placeholder="Tulis deskripsi detail tentang task ini..."
+                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">{{ old('description') }}</textarea>
             </div>
 
-            <div class="form-group">
-                <label for="priority" class="form-label">Prioritas</label>
-                <select name="priority" id="priority" class="form-select">
+            {{-- Prioritas --}}
+            <div>
+                <label for="priority" class="block text-sm font-semibold text-gray-800 mb-1">Prioritas</label>
+                <select name="priority" id="priority" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                     <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Rendah</option>
                     <option value="medium" {{ old('priority') == 'medium' || !old('priority') ? 'selected' : '' }}>Sedang</option>
                     <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>Tinggi</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="status" class="form-label">Status</label>
-                <select name="status" id="status" class="form-select">
+            {{-- Status --}}
+            <div>
+                <label for="status" class="block text-sm font-semibold text-gray-800 mb-1">Status</label>
+                <select name="status" id="status" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                     <option value="pending" {{ old('status') == 'pending' || !old('status') ? 'selected' : '' }}>Pending</option>
                     <option value="in_progress" {{ old('status') == 'in_progress' ? 'selected' : '' }}>Sedang Dikerjakan</option>
                     <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Selesai</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="deadline" class="form-label">Deadline (Opsional)</label>
-                <input 
-                    type="date" 
-                    name="deadline" 
-                    id="deadline" 
-                    class="form-control" 
+            {{-- Deadline --}}
+            <div>
+                <label for="deadline" class="block text-sm font-semibold text-gray-800 mb-1">Deadline (Opsional)</label>
+                <input
+                    type="date"
+                    name="deadline"
+                    id="deadline"
+                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                     value="{{ old('deadline') }}">
-                <div class="help-text">Pilih tanggal deadline untuk task ini</div>
+                <p class="text-xs text-gray-500 mt-1">Pilih tanggal deadline untuk task ini</p>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
-                <a href="{{ route('study_tasks.index') }}" class="btn-secondary">
-                    ⬅ Kembali
+            {{-- Tombol Aksi --}}
+            <div class="flex justify-end items-center pt-4 gap-4">
+                <a href="{{ route('study_tasks.index') }}" class="bg-gray-100 text-gray-700 font-medium px-5 py-2.5 rounded-lg hover:bg-gray-200 transition flex gap-1 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="40" d="M244 400L100 256l144-144M120 256h292"/></svg>
+                Kembali
                 </a>
-                <button type="submit" class="btn-primary">
-                    💾 Simpan Task
+                <button type="submit" class="bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 flex gap-1 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2c0-1.886 0-2.828-.586-3.414S13.886 15 12 15h-1c-1.886 0-2.828 0-3.414.586S7 17.114 7 19v2"/><path stroke-linecap="round" d="M7 8h5"/><path d="M3 9c0-2.828 0-4.243.879-5.121C4.757 3 6.172 3 9 3h7.172c.408 0 .613 0 .796.076s.329.22.618.51l2.828 2.828c.29.29.434.434.51.618c.076.183.076.388.076.796V15c0 2.828 0 4.243-.879 5.121C19.243 21 17.828 21 15 21H9c-2.828 0-4.243 0-5.121-.879C3 19.243 3 17.828 3 15z"/></g></svg> Simpan Task
                 </button>
             </div>
         </form>
     </div>
 </div>
-@endsection
 
+{{-- Animasi sederhana --}}
+<style>
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-in-out;
+}
+</style>
+@endsection

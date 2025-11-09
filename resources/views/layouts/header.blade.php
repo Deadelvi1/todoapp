@@ -106,7 +106,7 @@
                 <a href="{{ route('dashboard') }}" class="block text-gray-700 hover:text-black">Dashboard</a>
                 <a href="{{ route('study_tasks.index') }}" class="block text-gray-700 hover:text-black">Tasks</a>
                 <a href="{{ route('study-goals.index') }}" class="block text-gray-700 hover:text-black">Goals</a>
-                <a href="{{ $firstGoal ? route('study_sessions.index', ['goalId' => $firstGoal->id]) : '#' }}" class="block text-gray-700 hover:text-black">Timer</a>
+                <a href="{{ $firstGoal ? route('study_sessions.index', ['goalId' => $firstGoal->id]) : '#' }}" class="block text-gray-700 hover:text-black">History</a>
 
                 <div class="pt-3 border-t border-gray-200/50">
                     @php $u = session('user'); @endphp

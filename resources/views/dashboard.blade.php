@@ -48,23 +48,21 @@
 
   <!-- ===== Grid Container ===== -->
   <div class="relative grid grid-cols-2 gap-8 justify-center items-start mt-8">
-    
+
     <!-- ===== Tasks Section ===== -->
     <div class="col-span-2 lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6">
       <h2 class="font-semibold text-xl mb-5 text-black flex items-center gap-2">
-        <i data-lucide="check-square" class="text-indigo-800 w-6 h-6"></i> Study Tasks
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="text-indigo-800"><g fill="none" stroke="currentColor" stroke-linecap="square" stroke-width="1.6"><path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2a10 10 0 0 1 3.847.767"/><path d="m22 4.5l-10 10L7.5 10"/></g></svg> Study Tasks
       </h2>
 
-      <!-- Input Task -->
-      <div class="flex gap-2 mb-4">
-        <input type="text" placeholder="Add a new task..."
-          class="flex-1 bg-white/10 text-black border border-gray-200 hover:border-gray-700 focus:ring-1 focus:ring-sky-400 outline-none rounded-lg px-3 py-2 placeholder-gray-700">
-        <a href="{{ route('study_tasks.create') }}" 
-           class="bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-5 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
-          <i data-lucide="plus" class="w-5 h-5"></i>
-          Task
+    <div class="flex justify-between items-center mb-4">
+        <p class="text-black/70 text-sm">Your active study task</p>
+        <a href="{{ route('study_tasks.create') }}"
+           class="bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-4 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
+          <i data-lucide="plus" class="w-4 h-4"></i> Task
         </a>
       </div>
+
 
       <!-- Task Table -->
       <div class="mt-4 overflow-x-auto">
@@ -75,7 +73,7 @@
                 <th class="px-4 py-3">Title</th>
                 <th class="px-4 py-3">Priority</th>
                 <th class="px-4 py-3">Deadline</th>
-                <th class="px-4 py-3 text-right">Action</th>
+                <th class="px-4 py-3 text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -93,27 +91,27 @@
                   <td class="px-4 py-3 text-black/70">
                     {{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('d M Y') : '-' }}
                   </td>
-                  <td class="px-4 py-3 text-right">
-                    <div class="flex items-center justify-end gap-3">
+                  <td class=" py-3 items-center text-center flex mx-auto">
+                    <div class="flex items-center justify-center mx-auto gap-3">
                       @if($task->status !== 'completed')
                         <form action="{{ route('study_tasks.complete', $task->id) }}" method="POST" title="Mark as complete">
                           @csrf
                           @method('PATCH')
-                          <button type="submit" class="text-green-600 hover:text-green-700">
-                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                          <button type="submit" class="text-green-600 hover:text-green-700 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" class="text-green-600"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" d="m5 14l3.233 2.425a1 1 0 0 0 1.374-.167L18 6"/></svg>
                           </button>
                         </form>
                       @endif
 
                       <a href="{{ route('study_tasks.edit', $task->id) }}" title="Edit task" class="text-blue-600 hover:text-blue-700">
-                        <i data-lucide="pencil-line" class="w-5 h-5"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></g></svg>
                       </a>
 
-                      <form action="{{ route('study_tasks.destroy', $task->id) }}" method="POST" title="Delete task" onsubmit="return confirm('Delete this task?');">
+                      <form action="{{ route('study_tasks.destroy', $task->id) }}" method="POST" title="Delete task" onsubmit="return confirm('Delete cthis task?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-red-600 hover:text-red-700">
-                          <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        <button type="submit" class="text-red-600 hover:text-red-700 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" d="m19.5 5.5l-.62 10.025c-.158 2.561-.237 3.842-.88 4.763a4 4 0 0 1-1.2 1.128c-.957.584-2.24.584-4.806.584c-2.57 0-3.855 0-4.814-.585a4 4 0 0 1-1.2-1.13c-.642-.922-.72-2.205-.874-4.77L4.5 5.5M3 5.5h18m-4.944 0l-.683-1.408c-.453-.936-.68-1.403-1.071-1.695a2 2 0 0 0-.275-.172C13.594 2 13.074 2 12.035 2c-1.066 0-1.599 0-2.04.234a2 2 0 0 0-.278.18c-.395.303-.616.788-1.058 1.757L8.053 5.5"/></svg>
                         </button>
                       </form>
                     </div>
@@ -133,12 +131,19 @@
     <!-- ===== Study Goals Section ===== -->
     <div class="col-span-2 lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6">
       <h2 class="font-semibold text-xl mb-5 text-black flex items-center gap-2">
-        <i data-lucide="target" class="text-indigo-800 w-6 h-6"></i> Study Goals
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="text-indigo-800">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
+                            <path d="M10.66 10.66A1.9 1.9 0 0 0 10.1 12a1.9 1.9 0 0 0 1.9 1.9a1.9 1.9 0 0 0 1.34-.56"/>
+                            <path d="M12 6.3a5.7 5.7 0 1 0 5.7 5.7"/>
+                            <path d="M12 2.5a9.5 9.5 0 1 0 9.5 9.5m-5.975-3.524L12.95 11.05"/>
+                            <path d="M20.94 5.844L17.7 6.3l.456-3.24a.19.19 0 0 0-.313-.161l-2.148 2.137a1.9 1.9 0 0 0-.513 1.72l.342 1.72l1.72.341a1.9 1.9 0 0 0 1.72-.513L21.1 6.157a.19.19 0 0 0-.162-.313"/>
+                        </g>
+                    </svg></i> Study Goals
       </h2>
 
       <div class="flex justify-between items-center mb-4">
         <p class="text-black/70 text-sm">Your active learning targets</p>
-        <a href="{{ route('study-goals.create') }}" 
+        <a href="{{ route('study-goals.create') }}"
            class="bg-gradient-to-tr from-indigo-100 to-sky-300 text-black px-4 py-2 rounded-lg hover:scale-95 transition-all duration-300 flex items-center gap-1">
           <i data-lucide="plus" class="w-4 h-4"></i> Add Goal
         </a>

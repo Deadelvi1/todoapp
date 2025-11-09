@@ -23,7 +23,7 @@
       <ul class="space-y-2 text-sm">
         <li><a href="#" class="hover:text-indigo-600 transition">Task Management</a></li>
         <li><a href="#" class="hover:text-indigo-600 transition">Study Goals</a></li>
-        <li><a href="#" class="hover:text-indigo-600 transition">Focus Timer</a></li>
+        <li><a href="#" class="hover:text-indigo-600 transition">Study History</a></li>
         <li><a href="#" class="hover:text-indigo-600 transition">Progress Tracking</a></li>
       </ul>
     </div>
